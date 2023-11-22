@@ -1,4 +1,4 @@
-#include "EngineMain.h"
+ï»¿#include "EngineMain.h"
 
 #include <ctime>
 #include <map>
@@ -7,7 +7,7 @@
 
 using namespace std;
 
-#pragma region Ö¡ÊıºÍÊ±¼ä
+#pragma region å¸§æ•°å’Œæ—¶é—´
 
 
 static const string WindowTitle = "Engine";
@@ -21,21 +21,34 @@ static time_t lastFpsUpdateTime;
 
 #pragma endregion
 
+#pragma region è§†çª—è®¾ç½®
+
+static int windowWidth = 800;
+static int windowHeight = 600;
+
+#pragma endregion
+
+#pragma region ç›¸æœºè®¾ç½®
+
+static float fovy(60);
+static float nearPlane(0.01);
+static float farPlane(100);
+static float posX(0), posY(0), posZ(-5);
+static float scaleX(1), scaleY(1), scaleZ(1);
+
+#pragma endregion
+
 void BeginEngine(int* argc, char** argv) {
-	// ³õÊ¼»¯glut
+	// åˆå§‹åŒ–glut
 	glutInit(argc, argv);
-	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE); // ³õÊ¼»¯ÏÔÊ¾Ä£Ê½ RGB¡¢Ë«»º³å
-	glutInitWindowPosition(100, 100); // ³õÊ¼»¯´°¿ÚÎ»ÖÃ
-	glutInitWindowSize(800, 600); // ³õÊ¼»¯´°¿Ú´óĞ¡
-	glutCreateWindow(WindowTitle.c_str()); // ´´½¨´°¿Ú
+	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE); // åˆå§‹åŒ–æ˜¾ç¤ºæ¨¡å¼ RGBã€åŒç¼“å†²
+	glutInitWindowPosition(100, 100); // åˆå§‹åŒ–çª—å£ä½ç½®
+	glutInitWindowSize(windowWidth, windowHeight); // åˆå§‹åŒ–çª—å£å¤§å°
+	glutCreateWindow(WindowTitle.c_str()); // åˆ›å»ºçª—å£
 	glutDisplayFunc(&Internal_TickEngineAction);
 	glutIdleFunc(&Internal_TickEngineAction);
 
 	glEnable(GL_DEPTH_TEST);
-
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(45.f, 800.f / 600, 0.01f, 1000.f);
 }
 
 void StartEngine() {
@@ -45,6 +58,12 @@ void StartEngine() {
 
 void EndEngine() {}
 
+void Internal_Reshape(int w, int h) {
+	if (h == 0) h = 1;
+	windowWidth = w;
+	windowHeight = h;
+	glViewport(0, 0, windowWidth, windowHeight);
+}
 
 void Internal_TickEngineAction() {
 	Internal_UpdateTimeAndFrameCount();
@@ -53,12 +72,19 @@ void Internal_TickEngineAction() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// TODO matrix set
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluPerspective(fovy, (double)windowWidth / windowHeight, nearPlane, farPlane);
 
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	gluLookAt(posX, posY, posZ, 0, 0, 0, 0, 1, 0);
+	glScalef(scaleX, scaleY, scaleZ);
 
-	// TODO render tick
+	// TODO render
+
 
 	glPopMatrix();
-
 	glutSwapBuffers();
 }
 
