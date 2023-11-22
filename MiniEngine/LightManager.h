@@ -1,21 +1,30 @@
 #pragma once
+#include "LightEnums.h"
 #include <gl/glut.h>
-enum EFaceRenderMode
-{
-	Front = GL_FRONT,
-	Back = GL_BACK,
-	FrontAndBack = GL_FRONT_AND_BACK
-};
+
 
 class LightManager
 {
 private:
+	static LightManager* Instance;
+
 	LightManager();
+	LightManager(const LightManager&);
+	LightManager& operator=(const LightManager&);
+
+
 public:
+	LightManager* GetInstance()
+	{
+		if (Instance == nullptr) Instance = new LightManager();
+		return Instance;
+	}
+
 	void Init();
 
 public:
-	FaceRenderMode;
+	EFaceRenderMode FaceRenderMode;
+	EColorRenderMode ColorRenderMode;
 
 
 };
