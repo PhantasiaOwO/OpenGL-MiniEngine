@@ -34,20 +34,22 @@ static float fovy(60);
 static float nearPlane(0.01);
 static float farPlane(100);
 static float posX(0), posY(0), posZ(-5);
-static float scaleX(1), scaleY(1), scaleZ(1);
+static float targetX(0), targetY(0), targetZ(0);
+static float scale(1);
 
 #pragma endregion
 
 void BeginEngine(int* argc, char** argv) {
 	// 初始化glut
 	glutInit(argc, argv);
-	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE); // 初始化显示模式 RGB、双缓冲
+	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH); // 初始化显示模式 RGB、双缓冲
 	glutInitWindowPosition(100, 100); // 初始化窗口位置
 	glutInitWindowSize(windowWidth, windowHeight); // 初始化窗口大小
 	glutCreateWindow(WindowTitle.c_str()); // 创建窗口
 	glutDisplayFunc(&Internal_TickEngineAction);
 	glutIdleFunc(&Internal_TickEngineAction);
-
+	glutKeyboardFunc(&Internal_KeyboardFunc);
+	glutSpecialFunc(&Internal_SpecialFunc);
 	glEnable(GL_DEPTH_TEST);
 }
 
@@ -79,7 +81,7 @@ void Internal_TickEngineAction() {
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	gluLookAt(posX, posY, posZ, 0, 0, 0, 0, 1, 0);
-	glScalef(scaleX, scaleY, scaleZ);
+	glScalef(scale, scale, scale);
 
 	// TODO render
 
@@ -102,3 +104,61 @@ void Internal_UpdateTimeAndFrameCount() {
 		fpsCount = 0;
 	}
 }
+
+void Internal_KeyboardFunc(unsigned char key, int x, int y) {
+	key = tolower(key);
+	switch (key) {
+		case 27: // ESC: 退出程序
+			exit(0);
+			break;
+
+		case 'z':// 物体放大
+			scale += 0.05f;
+			break;
+
+		case 'x':// 物体缩小
+			scale -= 0.05f;
+			break;
+
+		case 'w':// 前进
+			posZ += 0.05f;
+			targetZ += 0.05f;
+			break;
+
+		case 's':// 后退
+			posZ -= 0.05f;
+			targetZ -= 0.05f;
+			break;
+
+		case 'a':// 左移
+			posX -= 0.05f;
+			targetX -= 0.05f;
+			break;
+
+		case 'd':// 右移
+			posX += 0.05f;
+			targetX += 0.05f;
+			break;
+
+		case 'q':// 上移
+			posY += 0.05f;
+			targetY += 0.05f;
+			break;
+
+		case 'e':// 下移
+			posY -= 0.05f;
+			targetY -= 0.05f;
+			break;
+
+		case 'r':// 复位
+			posX = posY = 0.0f;
+			posZ = -5;
+			targetX = targetY = targetZ = 0.0f;
+			break;
+
+		default:
+			break;
+	}
+}
+
+void Internal_SpecialFunc(int specialKey, int x, int y) { }
