@@ -13,3 +13,4 @@ enum EColorRenderMode
 	Diffuse = GL_DIFFUSE,
 	AmbientAndDiffuse = GL_AMBIENT_AND_DIFFUSE
 };
+

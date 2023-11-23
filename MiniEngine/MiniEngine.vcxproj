@@ -156,9 +156,11 @@
   <ItemGroup>
     <ClInclude Include="LightEnums.h" />
     <ClInclude Include="LightManager.h" />
+    <ClInclude Include="LightUnit.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LightManager.cpp" />
+    <ClCompile Include="LightUnit.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

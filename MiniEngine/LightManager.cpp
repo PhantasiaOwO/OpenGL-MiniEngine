@@ -1,10 +1,38 @@
-#include "LightManager.h"
+ï»¿#include "LightManager.h"
+
+LightManager::LightManager()
+{
+	glGetIntegerv(GL_MAX_LIGHTS, &_maxLights);
+
+	_lights.emplace_back(0);
+}
+
+LightManager* LightManager::GetInstance()
+{
+	if (Instance == nullptr) Instance = new LightManager();
+	return Instance;
+}
 
 void LightManager::Init()
 {
-	// ÉèÖÃ¹âÕÕºÍ²ÄÖÊ /////////////////////////////////////
-	glColorMaterial(FaceRenderMode, GL_AMBIENT_AND_DIFFUSE);	// ÉèÖÃÑÕÉ«²ÄÖÊ²ÎÊı
-	glEnable(GL_COLOR_MATERIAL);											// Ê¹ÓÃÑÕÉ«²ÄÖÊ
-	glColor3f(1.0f, 1.0f, 1.0f);								// ÉèÖÃÄ¬ÈÏµÄÎïÌåÑÕÉ«
-	glEnable(GL_LIGHTING);												// Ê¹ÓÃ¹âÕÕ
+	// è®¾ç½®å…‰ç…§å’Œæè´¨ /////////////////////////////////////
+	glColorMaterial(_faceRenderMode, _colorRenderMode);	// è®¾ç½®é¢œè‰²æè´¨å‚æ•°
+	glEnable(GL_COLOR_MATERIAL);											// ä½¿ç”¨é¢œè‰²æè´¨
+	glColor3f(1.0f, 1.0f, 1.0f);								// è®¾ç½®é»˜è®¤çš„ç‰©ä½“é¢œè‰²
+	glEnable(GL_LIGHTING);
+	//GL_LIGHT0// ä½¿ç”¨å…‰ç…§
+	//GL_MAX_LIGHTS
 }
+
+LightUnit& LightManager::AddLight()
+{
+	_lights.emplace_back(_lights.size());
+	return _lights.back();
+}
+
+LightUnit& LightManager::AddLightAtPosition(GLfloat position[])
+{
+	AddLight().
+}
+
+

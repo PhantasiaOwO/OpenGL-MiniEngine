@@ -21,12 +21,18 @@
     <ClCompile Include="LightManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LightUnit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LightManager.h">
       <Filter>Header Files\Light</Filter>
     </ClInclude>
     <ClInclude Include="LightEnums.h">
+      <Filter>Header Files\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="LightUnit.h">
       <Filter>Header Files\Light</Filter>
     </ClInclude>
   </ItemGroup>
