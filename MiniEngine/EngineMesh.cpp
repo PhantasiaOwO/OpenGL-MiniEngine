@@ -5,7 +5,7 @@ void EngineMesh::setupMesh()
     ///生成并绑定顶点数组对象
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
-
+    
     ///生成并绑定顶点缓冲对象
     glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -15,7 +15,6 @@ void EngineMesh::setupMesh()
     glGenBuffers(1, &EBO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
-
 
 
     ///传入顶点着色器渲染

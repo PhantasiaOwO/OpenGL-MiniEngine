@@ -20,18 +20,18 @@ struct Vertex {
 	glm::vec3 Tangent;
 };
 
+enum TextureType {
+	DiffuseMap,
+	SpecularMap,
+	NormalMap,
+	HeightMap
+};
+
 struct Texture {
 	//用于纹理绑定
 	uint32_t id;
 	TextureType type;
 	string path;
-};
-
-enum TextureType{
-	DiffuseMap,
-	SpecularMap,
-	NormalMap,
-	HeightMap
 };
 
 class EngineMesh {
@@ -40,7 +40,7 @@ private:
 	///顶点
 	vector<Vertex> vertices;
 	///链接索引
-	vector<unsigned int> indices;
+	vector<uint32_t> indices;
 	///纹理
 	vector<Texture> textures;
 	///顶点绑定

@@ -1,9 +1,5 @@
 #include "EngineModel.h"
-
-void EngineModel::Destroy(EngineModel model)
-{
-
-}
+#include <stb_image.h>
 
 void EngineModel::loadModel(const string& path)
 {
@@ -24,11 +20,12 @@ void EngineModel::loadModel(const string& path)
 
 void EngineModel::traverseNode(aiNode* node, const aiScene* scene)
 {
+    
     for (uint32_t i = 0; i < node->mNumMeshes; ++i)
     {
         //读取scene中的网格信息
         aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-        meshes.emplace_back(storeMesh(mesh, scene));
+        storeMesh(mesh,scene);
     }
 
     for (uint32_t i = 0; i < node->mNumChildren; ++i)
@@ -38,7 +35,7 @@ void EngineModel::traverseNode(aiNode* node, const aiScene* scene)
     }
 }
 
-EngineMesh EngineModel::storeMesh(aiMesh* mesh, const aiScene* scene)
+void EngineModel::storeMesh(aiMesh* mesh, const aiScene* scene)
 {
     //顶点信息
     vector<Vertex> vertices;
@@ -49,7 +46,7 @@ EngineMesh EngineModel::storeMesh(aiMesh* mesh, const aiScene* scene)
 
     for (uint32_t i = 0; i < mesh->mNumVertices; ++i)
     {
-
+        
         Vertex vertex;
         glm::vec3 vector;
         //位置
@@ -57,6 +54,7 @@ EngineMesh EngineModel::storeMesh(aiMesh* mesh, const aiScene* scene)
         vector.y = mesh->mVertices[i].y;
         vector.z = mesh->mVertices[i].z;
         vertex.Position = vector;
+
 
         //法线
         vector.x = mesh->mNormals[i].x;
@@ -80,19 +78,18 @@ EngineMesh EngineModel::storeMesh(aiMesh* mesh, const aiScene* scene)
         vector.y = mesh->mTangents[i].y;
         vector.z = mesh->mTangents[i].z;
         vertex.Tangent = vector;
-
+        vertices.emplace_back(vertex);
     }
-
+    
     //读取面索引
     for (uint32_t i = 0; i < mesh->mNumFaces; ++i)
     {
         aiFace face = mesh->mFaces[i];
-
         for (uint32_t j = 0; j < face.mNumIndices; ++j)
             indices.emplace_back(face.mIndices[j]);
     }
-
-    //读取纹理材质
+    
+    //读取材质信息
     aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
     
     ///加载纹理
@@ -109,7 +106,7 @@ EngineMesh EngineModel::storeMesh(aiMesh* mesh, const aiScene* scene)
     std::vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, TextureType::NormalMap);
     textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 
-    return EngineMesh(vertices, indices, textures);
+    meshes.push_back(EngineMesh(vertices, indices, textures));
 }
 
 
@@ -161,7 +158,7 @@ uint32_t EngineModel::loadTexture(const char* path)
     if (data)
     {
         //确定颜色空间
-        GLenum format;
+        GLenum format = 0;
         if (nrComponents == 1)
             format = GL_RED;
         else if (nrComponents == 3)
