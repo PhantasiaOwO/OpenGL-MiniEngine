@@ -15,8 +15,8 @@ private:
 	std::vector<LightUnit> _lights;
 
 	bool _isLightingEnable = false;
-	EFaceRenderMode _faceRenderMode;
-	EColorRenderMode _colorRenderMode;
+	// EFaceRenderMode _faceRenderMode;
+	// EColorRenderMode _colorRenderMode;
 
 
 	LightManager();
@@ -28,19 +28,19 @@ public:
 	static LightManager* GetInstance();
 	void Init();
 	LightUnit& AddLight();
-	LightUnit& AddLightAtPosition(GLfloat position[]);
+	LightUnit& AddLightAtPosition(glm::vec4 position);
 
-	bool GetLightingEnable();
-	bool SetLightingEnable();
+	bool GetLightingEnable() const;
+	void SetLightingEnable(bool isEnabled);
 
 	void EnableLight(int index);
 	void DisableLight(int index);
 
-	int LightCount() const {return _lights.size();}
+	size_t LightCount() const {return _lights.size();}
 	
-
 	int GetMaxLightsNumber() const { return _maxLights; }
-	//void GetLightType(int index);
+	
+	ELightType GetLightType(int index) const;
 
 	LightUnit& operator[](const int lightId) { return _lights[lightId]; }
 public:
