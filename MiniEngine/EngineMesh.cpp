@@ -1,31 +1,31 @@
-#include "EngineMesh.h"
+ï»¿#include "EngineMesh.h"
 
 void EngineMesh::setupMesh()
 {
-    ///Éú³É²¢°ó¶¨¶¥µãÊı×é¶ÔÏó
+    ///ç”Ÿæˆå¹¶ç»‘å®šé¡¶ç‚¹æ•°ç»„å¯¹è±¡
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
     
-    ///Éú³É²¢°ó¶¨¶¥µã»º³å¶ÔÏó
+    ///ç”Ÿæˆå¹¶ç»‘å®šé¡¶ç‚¹ç¼“å†²å¯¹è±¡
     glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
 
-    ///Éú³É²¢°ó¶¨Ë÷Òı»º³å¶ÔÏó
+    ///ç”Ÿæˆå¹¶ç»‘å®šç´¢å¼•ç¼“å†²å¯¹è±¡
     glGenBuffers(1, &EBO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
 
 
-    ///´«Èë¶¥µã×ÅÉ«Æ÷äÖÈ¾
-    //ÆôÓÃÍ¨ÓÃ¶¥µãAttributeÊı×éµÄIndexË÷Òı
+    ///ä¼ å…¥é¡¶ç‚¹ç€è‰²å™¨æ¸²æŸ“
+    //å¯ç”¨é€šç”¨é¡¶ç‚¹Attributeæ•°ç»„çš„Indexç´¢å¼•
     glEnableVertexAttribArray(0);
-    //²ÎÊıÒ»Îª´«ÈëÄÄ¸öLayout
-    //²ÎÊı¶şÈ·¶¨´«ÈëÖµµÄ´óĞ¡
-    //²ÎÊıÈıÈ·¶¨Êı¾İÀàĞÍ
-    //²ÎÊıËÄ¾ö¶¨Êı¾İÊÇ·ñ×ö¹éÒ»»¯
-    //²ÎÊıÎåÎªÁ½¸öÍ¬ÀàÊı¾İµÄÏà²î¼ä¾à
-    //²ÎÊıÁùÎªÎ»ÖÃÊı¾İÔÚ»º³åÖĞÆğÊ¼Î»ÖÃµÄÆ«ÒÆÁ¿
+    //å‚æ•°ä¸€ä¸ºä¼ å…¥å“ªä¸ªLayout
+    //å‚æ•°äºŒç¡®å®šä¼ å…¥å€¼çš„å¤§å°
+    //å‚æ•°ä¸‰ç¡®å®šæ•°æ®ç±»å‹
+    //å‚æ•°å››å†³å®šæ•°æ®æ˜¯å¦åšå½’ä¸€åŒ–
+    //å‚æ•°äº”ä¸ºä¸¤ä¸ªåŒç±»æ•°æ®çš„ç›¸å·®é—´è·
+    //å‚æ•°å…­ä¸ºä½ç½®æ•°æ®åœ¨ç¼“å†²ä¸­èµ·å§‹ä½ç½®çš„åç§»é‡
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
 
     glEnableVertexAttribArray(1);
@@ -37,7 +37,7 @@ void EngineMesh::setupMesh()
     glEnableVertexAttribArray(3);
     glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Tangent));
 
-    ///½â°ó¶¨
+    ///è§£ç»‘å®š
     glBindVertexArray(0);
 }
 
@@ -66,11 +66,11 @@ void EngineMesh::DrawMesh(const Shader& shader)
         glBindTexture(GL_TEXTURE_2D, textures[i].id);
     }
 
-    ///°ó¶¨VAO
+    ///ç»‘å®šVAO
     glBindVertexArray(VAO);
-    ///¸ù¾İ¶¥µãË÷Òı»æÖÆÈı½ÇÃæÆ¬
-    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
-    ///½â°óVAO
+    ///æ ¹æ®é¡¶ç‚¹ç´¢å¼•ç»˜åˆ¶ä¸‰è§’é¢ç‰‡
+    glDrawElements(GL_TRIANGLES,static_cast<GLsizei>(indices.size()), GL_UNSIGNED_INT, 0);
+    ///è§£ç»‘VAO
     glBindVertexArray(0);
 
     glActiveTexture(GL_TEXTURE0);

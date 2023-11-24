@@ -1,4 +1,4 @@
-#ifndef ENGINEMESH
+ï»¿#ifndef ENGINEMESH
 #define ENGINEMESH
 #include <glad/glad.h> 
 #include <glm/glm.hpp>
@@ -9,17 +9,17 @@
 #include <vector>
 using namespace std;
 
-//¶¥µãĞÅÏ¢
+//é¡¶ç‚¹ä¿¡æ¯
 struct Vertex {
 	glm::vec3 Position;
 
 	glm::vec3 Normal;
-	//ÎÆÀí
+	//çº¹ç†
 	glm::vec2 TexCoords;
-	//ÇĞÏß
+	//åˆ‡çº¿
 	glm::vec3 Tangent;
 };
-
+//è´´å›¾ç±»å‹
 enum TextureType {
 	DiffuseMap,
 	SpecularMap,
@@ -28,7 +28,7 @@ enum TextureType {
 };
 
 struct Texture {
-	//ÓÃÓÚÎÆÀí°ó¶¨
+	//ç”¨äºçº¹ç†ç»‘å®š
 	uint32_t id;
 	TextureType type;
 	string path;
@@ -37,13 +37,13 @@ struct Texture {
 class EngineMesh {
 
 private:
-	///¶¥µã
+	///é¡¶ç‚¹
 	vector<Vertex> vertices;
-	///Á´½ÓË÷Òı
+	///é“¾æ¥ç´¢å¼•
 	vector<uint32_t> indices;
-	///ÎÆÀí
+	///çº¹ç†
 	vector<Texture> textures;
-	///¶¥µã°ó¶¨
+	///é¡¶ç‚¹ç»‘å®š
 	GLuint VAO, VBO, EBO;
 	void setupMesh();
 public:
@@ -52,8 +52,8 @@ public:
 		setupMesh();
 	}
 	/// <summary>
-	/// Íø¸ñ»æÖÆ
-	/// ĞèÒªShaderÀà
+	/// ç½‘æ ¼ç»˜åˆ¶
+	/// éœ€è¦Shaderç±»
 	/// </summary>
 	/// <param name="shader"></param>
 	void DrawMesh(const Shader& shader);

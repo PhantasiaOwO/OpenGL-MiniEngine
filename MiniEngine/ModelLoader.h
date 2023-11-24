@@ -1,6 +1,8 @@
-#ifndef MODELLOADER
+ï»¿#ifndef MODELLOADER
 #define MODELLOADER
 #include<map>
+#include<fstream>
+#include<sstream>
 #include<unordered_map>
 #include<string>
 #include "EngineModel.h"
@@ -15,12 +17,12 @@ public:
 		LoadModelFormFile();
 	}
 	/// <summary>
-	/// ¼ÓÔØÄ£ĞÍÂ·¾¶ÅäÖÃÎÄ¼ş
+	/// åŠ è½½æ¨¡å‹è·¯å¾„é…ç½®æ–‡ä»¶
 	/// </summary>
 	void LoadModelFormFile()
 	{
-		std::ifstream file;
-		stringstream ss;
+		std::ifstream file{};
+		stringstream ss{};
 		file.open("../Setting.txt", std::ios::in);
 		if (!file.is_open())
 		{

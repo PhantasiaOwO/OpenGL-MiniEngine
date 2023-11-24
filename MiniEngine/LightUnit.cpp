@@ -1,6 +1,6 @@
 ﻿#include "LightUnit.h"
 
-LightUnit::LightUnit(int index):
+LightUnit::LightUnit(int index) :
 	_lightId(index)
 {
 	constexpr glm::vec4 defaultZero{0,0,0,1};

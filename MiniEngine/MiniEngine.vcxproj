@@ -20,8 +20,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EngineMain.h" />
+    <ClInclude Include="ModelLoader.h" />
+    <ClInclude Include="shader.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\OpenglCourse\OpenglCourse\glad.c" />
     <ClCompile Include="EngineMain.cpp" />
     <ClCompile Include="EngineMesh.cpp" />
     <ClCompile Include="EngineModel.cpp" />
@@ -80,9 +83,9 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)glut-3.7beta/include;$(SolutionDir)include;</ExternalIncludePath>
-    <ReferencePath>$(VC_ReferencesPath_x64);$(SolutionDir)glut-3.7beta/dll;</ReferencePath>
-    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(SolutionDir)glut-3.7beta/lib;</LibraryPath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)glut-3.7beta/include;$(SolutionDir)include;$(SolutionDir)assimp;$(SolutionDir)glad;$(SolutionDir)GLFW/include;$(SolutionDir)std_image/include;$(SolutionDir)KHR</ExternalIncludePath>
+    <ReferencePath>$(VC_ReferencesPath_x64);$(SolutionDir)glut-3.7beta/dll;$(SolutionDir)assimp/dll</ReferencePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(SolutionDir)glut-3.7beta/lib;$(SolutionDir)assimp/lib;$(SolutionDir)GLFW/lib</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)glut-3.7beta/include;$(SolutionDir)include;</ExternalIncludePath>
@@ -137,6 +140,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>glfw3.lib;assimp-vc143-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
