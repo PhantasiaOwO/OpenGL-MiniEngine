@@ -9,7 +9,6 @@ using namespace std;
 
 #pragma region 帧数和时间
 
-
 static const string WindowTitle = "Engine";
 static time_t now;
 static time_t lastTickTime;
@@ -36,6 +35,14 @@ static float farPlane(100);
 static float posX(0), posY(0), posZ(-5);
 static float targetX(0), targetY(0), targetZ(0);
 static float scale(1);
+static float rotateAroundX(0);
+static float rotateAroundY(0);
+
+#pragma endregion
+
+#pragma region 鼠标
+
+int mouseX, mouseY;
 
 #pragma endregion
 
@@ -50,6 +57,7 @@ void BeginEngine(int* argc, char** argv) {
 	glutIdleFunc(&Internal_TickEngineAction);
 	glutKeyboardFunc(&Internal_KeyboardFunc);
 	glutSpecialFunc(&Internal_SpecialFunc);
+	glutMotionFunc(&internal_MouseMotion);
 	glEnable(GL_DEPTH_TEST);
 }
 
@@ -80,7 +88,9 @@ void Internal_TickEngineAction() {
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	gluLookAt(posX, posY, posZ, 0, 0, 0, 0, 1, 0);
+	glRotatef(rotateAroundX, 1, 0, 0);
+	glRotatef(rotateAroundY, 0, 1, 0);
+	glTranslatef(-posX, -posY, -posZ);
 	glScalef(scale, scale, scale);
 
 	// TODO render
@@ -140,17 +150,35 @@ void Internal_KeyboardFunc(unsigned char key, int x, int y) {
 			targetX += 0.05f;
 			break;
 
-		case 'q':// 上移
+		case 'r':// 上移
 			posY += 0.05f;
 			targetY += 0.05f;
 			break;
 
-		case 'e':// 下移
+		case 'f':// 下移
 			posY -= 0.05f;
 			targetY -= 0.05f;
 			break;
 
-		case 'r':// 复位
+		case 'q':// 左旋
+			rotateAroundY += 2.f;
+			break;
+
+		case 'e':// 右旋
+			rotateAroundY -= 2.f;
+			break;
+
+		case 't':// 上旋
+			rotateAroundX += 2.f;
+			if (rotateAroundX > 90.f) rotateAroundX = 90.f;
+			break;
+
+		case 'g':// 下旋
+			rotateAroundX -= 2.f;
+			if (rotateAroundX < -90.f) rotateAroundX = -90.f;
+			break;
+
+		case 'm':// 复位
 			posX = posY = 0.0f;
 			posZ = -5;
 			targetX = targetY = targetZ = 0.0f;
@@ -162,3 +190,19 @@ void Internal_KeyboardFunc(unsigned char key, int x, int y) {
 }
 
 void Internal_SpecialFunc(int specialKey, int x, int y) { }
+
+
+static void internal_MouseMotion(int x, int y) {
+	int dx, dy;
+
+	dx = x - mouseX;
+	dy = y - mouseY;
+
+	// 修改摄像机或场景
+	rotateAroundY += dy;
+	rotateAroundX += dx;
+
+	// 保存鼠标当前位置，留作后用
+	mouseX = x;
+	mouseY = y;
+}
