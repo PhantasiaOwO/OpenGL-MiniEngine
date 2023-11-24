@@ -5,8 +5,9 @@ void EngineModel::loadModel(const string& path)
 {
     Assimp::Importer importer;
     //读取路径模型信息,Assimp库辅助建立数据结构
+    cout << "Begin Load Model" << endl;
     const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
-
+    cout << "Finished" << endl;
     if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
     {
         cout << "ERROR::ASSIMP:: " << importer.GetErrorString() << endl;
@@ -20,10 +21,8 @@ void EngineModel::loadModel(const string& path)
 
 void EngineModel::traverseNode(aiNode* node, const aiScene* scene)
 {
-    
     for (uint32_t i = 0; i < node->mNumMeshes; ++i)
     {
-        //读取scene中的网格信息
         aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
         storeMesh(mesh,scene);
     }
@@ -86,7 +85,9 @@ void EngineModel::storeMesh(aiMesh* mesh, const aiScene* scene)
     {
         aiFace face = mesh->mFaces[i];
         for (uint32_t j = 0; j < face.mNumIndices; ++j)
+        {
             indices.emplace_back(face.mIndices[j]);
+        }
     }
     
     //读取材质信息
