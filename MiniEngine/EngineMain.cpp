@@ -57,7 +57,7 @@ void BeginEngine(int* argc, char** argv) {
 	glutIdleFunc(&Internal_TickEngineAction);
 	glutKeyboardFunc(&Internal_KeyboardFunc);
 	glutSpecialFunc(&Internal_SpecialFunc);
-	glutMotionFunc(&internal_MouseMotion);
+	glutMotionFunc(&Internal_MouseMotion);
 	glEnable(GL_DEPTH_TEST);
 }
 
@@ -192,7 +192,7 @@ void Internal_KeyboardFunc(unsigned char key, int x, int y) {
 void Internal_SpecialFunc(int specialKey, int x, int y) { }
 
 
-static void internal_MouseMotion(int x, int y) {
+void Internal_MouseMotion(int x, int y) {
 	int dx, dy;
 
 	dx = x - mouseX;

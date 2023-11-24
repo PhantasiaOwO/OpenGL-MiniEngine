@@ -23,6 +23,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMain.cpp" />
+    <ClCompile Include="EngineMesh.cpp" />
+    <ClCompile Include="EngineModel.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -154,6 +156,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="EngineMesh.h" />
+    <ClInclude Include="EngineModel.h" />
     <ClInclude Include="LightEnums.h" />
     <ClInclude Include="LightManager.h" />
     <ClInclude Include="LightUnit.h" />
