@@ -4,6 +4,8 @@
 #include <map>
 #include <sstream>
 #include <GL/glut.h>
+
+#include "Transform.h"
 using namespace std;
 
 #pragma region 帧数和时间
@@ -31,17 +33,21 @@ static int windowHeight = 600;
 static float fovy(60);
 static float nearPlane(0.01);
 static float farPlane(100);
-static float posX(0), posY(0), posZ(-5);
-static float targetX(0), targetY(0), targetZ(0);
-static float scale(1);
-static float rotateAroundX(0);
-static float rotateAroundY(0);
+static Transform transform;
+static bool isChangeRotate;
+static Vector3 rotateAngle;
+static Vector3 initPos;
+static Quaternion initRot;
+
+static float linearStep = 0.05f;
+static float angleStep = 2.f;
+static float mouseSensitive = 0.05f;
 
 #pragma endregion
 
 #pragma region 鼠标
 
-int mouseX, mouseY;
+Vector3 mouseLast;
 
 #pragma endregion
 
@@ -80,17 +86,17 @@ void Internal_TickEngineAction() {
 	// render
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	// TODO matrix set
+	// matrix set
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluPerspective(fovy, (double)windowWidth / windowHeight, nearPlane, farPlane);
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	glRotatef(rotateAroundX, 1, 0, 0);
-	glRotatef(rotateAroundY, 0, 1, 0);
-	glTranslatef(-posX, -posY, -posZ);
-	glScalef(scale, scale, scale);
+	Vector3 cameraPosition = transform.position;
+	Quaternion cameraRot = transform.rotation;
+	glMultMatrixf(Matrix4x4ForGL(cameraRot.RotateMatrix().Transpose())); // 正交矩阵转置和逆一致
+	glTranslatef(-cameraPosition.X(), -cameraPosition.Y(), -cameraPosition.Z());
 
 	// TODO render
 
@@ -121,70 +127,66 @@ void Internal_KeyboardFunc(unsigned char key, int x, int y) {
 			exit(0);
 			break;
 
-		case 'z':// 物体放大
-			scale += 0.05f;
-			break;
-
-		case 'x':// 物体缩小
-			scale -= 0.05f;
-			break;
-
 		case 'w':// 前进
-			posZ += 0.05f;
-			targetZ += 0.05f;
+			transform.position += transform.rotation.ZAxis() * -linearStep;
 			break;
 
 		case 's':// 后退
-			posZ -= 0.05f;
-			targetZ -= 0.05f;
+			transform.position += transform.rotation.ZAxis() * linearStep;
 			break;
 
 		case 'a':// 左移
-			posX -= 0.05f;
-			targetX -= 0.05f;
+			transform.position += transform.rotation.XAxis() * -linearStep;
 			break;
 
 		case 'd':// 右移
-			posX += 0.05f;
-			targetX += 0.05f;
+			transform.position += transform.rotation.XAxis() * linearStep;
 			break;
 
 		case 'r':// 上移
-			posY += 0.05f;
-			targetY += 0.05f;
+			transform.position += transform.rotation.YAxis() * linearStep;
 			break;
 
 		case 'f':// 下移
-			posY -= 0.05f;
-			targetY -= 0.05f;
+			transform.position += transform.rotation.YAxis() * -linearStep;
 			break;
 
 		case 'q':// 左旋
-			rotateAroundY += 2.f;
+			isChangeRotate = true;
+			rotateAngle.Y() = rotateAngle.Y() + angleStep;
 			break;
 
 		case 'e':// 右旋
-			rotateAroundY -= 2.f;
+			isChangeRotate = true;
+			rotateAngle.Y() = rotateAngle.Y() - angleStep;
 			break;
 
 		case 't':// 上旋
-			rotateAroundX += 2.f;
-			if (rotateAroundX > 90.f) rotateAroundX = 90.f;
+			isChangeRotate = true;
+			rotateAngle.X() = rotateAngle.X() + angleStep;
 			break;
 
 		case 'g':// 下旋
-			rotateAroundX -= 2.f;
-			if (rotateAroundX < -90.f) rotateAroundX = -90.f;
+			isChangeRotate = true;
+			rotateAngle.X() = rotateAngle.X() - angleStep;
 			break;
 
 		case 'm':// 复位
-			posX = posY = 0.0f;
-			posZ = -5;
-			targetX = targetY = targetZ = 0.0f;
+			transform.position = initPos;
+			transform.rotation = initRot;
+			rotateAngle = {0, 0, 0};
 			break;
 
 		default:
 			break;
+	}
+
+	if (isChangeRotate) {
+		isChangeRotate = false;
+
+		Quaternion newRotate;
+		newRotate.SetFromEulerAngleZYX(rotateAngle);
+		transform.rotation = newRotate;
 	}
 }
 
@@ -192,16 +194,23 @@ void Internal_SpecialFunc(int specialKey, int x, int y) { }
 
 
 void Internal_MouseMotion(int x, int y) {
-	int dx, dy;
+	Vector3 delta(Vector3(x, y, 0) - mouseLast);
+	mouseLast = Vector3(x, y, 0);
+	delta *= mouseSensitive;
+	isChangeRotate = true;
+	rotateAngle.X() = rotateAngle.X() - delta.Y();
+	rotateAngle.Y() = rotateAngle.Y() - delta.X();
 
-	dx = x - mouseX;
-	dy = y - mouseY;
-
-	// 修改摄像机或场景
-	rotateAroundY += dy;
-	rotateAroundX += dx;
-
-	// 保存鼠标当前位置，留作后用
-	mouseX = x;
-	mouseY = y;
+	if (isChangeRotate) {
+		isChangeRotate = false;
+		rotateAngle.X() = std::max(-90.f, std::min(90.f, rotateAngle.X()));
+		if (rotateAngle.Y() > 180.f) {
+			rotateAngle.Y() = -180.f + fmod(rotateAngle.Y() - 180.f, 360.f);
+		} else if (rotateAngle.Y() <= -180.f) {
+			rotateAngle.Y() = 180.f - fmod(fabs(rotateAngle.Y()) - 180.f, 360.f);
+		}
+		Quaternion newRotate;
+		newRotate.SetFromEulerAngleZYX(rotateAngle);
+		transform.rotation = newRotate;
+	}
 }
