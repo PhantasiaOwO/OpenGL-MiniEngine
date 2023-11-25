@@ -1,4 +1,4 @@
-ï»¿#ifndef ENGINEMODEL_H
+#ifndef ENGINEMODEL_H
 #define ENGINEMODEL_H
 
 #define STB_IMAGE_IMPLEMENTATION
@@ -19,17 +19,18 @@ using namespace std;
 class EngineModel
 {
 private:
-	//å·²åŠ è½½çº¹ç†
+	string name;
+	//ÒÑ¼ÓÔØÎÆÀí
 	vector<Texture> textures_loaded;
-	//è¯»å–ç½‘æ ¼
+	//¶ÁÈ¡Íø¸ñ
 	vector<EngineMesh> meshes;
-	//æ¨¡å‹åœ°å€
+	//Ä£ĞÍµØÖ·
 	string directory;
-	//æ¨¡å‹ä½ç½®
+	//Ä£ĞÍÎ»ÖÃ
 	glm::vec3 pos;
-	//ç»•å“ªä¸ªè½´æ—‹è½¬ä»¥åŠæ—‹è½¬åº¦æ•°
+	//ÈÆÄÄ¸öÖáĞı×ªÒÔ¼°Ğı×ª¶ÈÊı
 	glm::vec3 rotation;
-	//æ¨¡å‹å¤§å°
+	//Ä£ĞÍ´óĞ¡
 	glm::vec3 scale;
 
 	void loadModel(const string& path);
@@ -45,7 +46,7 @@ private:
 public:
 	EngineModel() :pos(glm::vec3(0.0f,0.0f,0.0f)), rotation(glm::vec3(0.0f,0.0f,0.0f)), scale(glm::vec3(0.0f,0.0f,0.0f)){}
 	
-	explicit EngineModel(const string& path,glm::vec3 pos,glm::vec3 rotation, glm::vec3 scale):pos(pos),rotation(rotation), scale(scale)
+	explicit EngineModel(string name,const string& path,glm::vec3 pos,glm::vec3 rotation, glm::vec3 scale):name(name), pos(pos), rotation(rotation), scale(scale)
 	{
 		loadModel(path);
 	}
