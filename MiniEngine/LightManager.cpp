@@ -1,9 +1,11 @@
 ﻿#include "LightManager.h"
 
+LightManager* LightManager::Instance = nullptr;
+
 LightManager::LightManager()
 {
 	glGetIntegerv(GL_MAX_LIGHTS, &_maxLights);
-	_lights.emplace_back(0);
+	_lights.push_back(LightUnit(0));
 }
 
 LightManager* LightManager::GetInstance()
@@ -25,13 +27,13 @@ void LightManager::Init()
 
 LightUnit& LightManager::AddLight()
 {
-	_lights.emplace_back(_lights.size());
+	_lights.push_back(LightUnit(_lights.size()));
 	return _lights.back();
 }
 
 LightUnit& LightManager::AddLightAtPosition(glm::vec4 position)
 {
-	_lights.emplace_back(_lights.size(),position);
+	_lights.push_back(LightUnit(_lights.size(),position));
 	return _lights.back();
 }
 

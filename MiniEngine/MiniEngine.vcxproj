@@ -24,10 +24,10 @@
     <ClInclude Include="shader.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\OpenglCourse\OpenglCourse\glad.c" />
     <ClCompile Include="EngineMain.cpp" />
     <ClCompile Include="EngineMesh.cpp" />
     <ClCompile Include="EngineModel.cpp" />
+    <ClCompile Include="glad.c" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -83,24 +83,24 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)glut-3.7beta/include;$(SolutionDir)include;$(SolutionDir)assimp;$(SolutionDir)glad;$(SolutionDir)GLFW/include;$(SolutionDir)std_image/include;$(SolutionDir)KHR</ExternalIncludePath>
-    <ReferencePath>$(VC_ReferencesPath_x64);$(SolutionDir)glut-3.7beta/dll;$(SolutionDir)assimp/dll</ReferencePath>
-    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(SolutionDir)glut-3.7beta/lib;$(SolutionDir)assimp/lib;$(SolutionDir)GLFW/lib</LibraryPath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)glut-3.7beta/include;$(SolutionDir)include;$(SolutionDir)std_image/include;$(SolutionDir)KHR\KHR;$(SolutionDir)GLFW\include;$(SolutionDir)glad;$(SolutionDir)assimp;$(SolutionDir)KHR</ExternalIncludePath>
+    <ReferencePath>$(VC_ReferencesPath_x64);$(SolutionDir)glut-3.7beta/dll/x64;$(SolutionDir)assimp/dll$(VC_ReferencesPath_x86);$(SolutionDir)glut-3.7beta/dll;$(SolutionDir)assimp/dll;</ReferencePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(SolutionDir)glut-3.7beta/lib;$(SolutionDir)GLFW\lib;$(SolutionDir)assimp/lib;</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)glut-3.7beta/include;$(SolutionDir)include;</ExternalIncludePath>
-    <ReferencePath>$(VC_ReferencesPath_x64);$(SolutionDir)glut-3.7beta/dll;</ReferencePath>
-    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(SolutionDir)glut-3.7beta/lib;</LibraryPath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)glut-3.7beta/include;$(SolutionDir)include;$(SolutionDir)std_image/include;$(SolutionDir)KHR\KHR;$(SolutionDir)GLFW\include;$(SolutionDir)glad;$(SolutionDir)assimp;$(SolutionDir)KHR</ExternalIncludePath>
+    <ReferencePath>$(VC_ReferencesPath_x64);$(SolutionDir)glut-3.7beta/dll/x64;$(VC_ReferencesPath_x86);$(SolutionDir)glut-3.7beta/dll;$(SolutionDir)assimp/dll;</ReferencePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(SolutionDir)glut-3.7beta/lib;$(SolutionDir)GLFW\lib;$(SolutionDir)assimp/lib;</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ReferencePath>$(VC_ReferencesPath_x86);$(SolutionDir)glut-3.7beta/dll;</ReferencePath>
-    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(SolutionDir)glut-3.7beta/lib;</LibraryPath>
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)glut-3.7beta/include;$(SolutionDir)include;</ExternalIncludePath>
+    <ReferencePath>$(VC_ReferencesPath_x86);$(SolutionDir)glut-3.7beta/dll;$(SolutionDir)assimp/dll;</ReferencePath>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(SolutionDir)glut-3.7beta/lib;$(SolutionDir)GLFW\lib;$(SolutionDir)assimp/lib;</LibraryPath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)glut-3.7beta/include;$(SolutionDir)include;$(SolutionDir)std_image/include;$(SolutionDir)KHR\KHR;$(SolutionDir)GLFW\include;$(SolutionDir)glad;$(SolutionDir)assimp;$(SolutionDir)KHR</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <ReferencePath>$(VC_ReferencesPath_x86);$(SolutionDir)glut-3.7beta/dll;</ReferencePath>
-    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(SolutionDir)glut-3.7beta/lib;</LibraryPath>
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)glut-3.7beta/include;$(SolutionDir)include;</ExternalIncludePath>
+    <ReferencePath>$(VC_ReferencesPath_x86);$(SolutionDir)glut-3.7beta/dll;$(SolutionDir)assimp/dll;</ReferencePath>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(SolutionDir)glut-3.7beta/lib;$(SolutionDir)GLFW\lib;$(SolutionDir)assimp/lib;</LibraryPath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)glut-3.7beta/include;$(SolutionDir)include;$(SolutionDir)std_image/include;$(SolutionDir)KHR\KHR;$(SolutionDir)GLFW\include;$(SolutionDir)glad;$(SolutionDir)assimp;$(SolutionDir)KHR</ExternalIncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -112,7 +112,11 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <ProjectReference>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -128,7 +132,11 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <ProjectReference>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -170,7 +178,19 @@
     <ClCompile Include="LightManager.cpp" />
     <ClCompile Include="LightUnit.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\nupengl.core.redist.0.1.0.1\build\native\nupengl.core.redist.targets" Condition="Exists('..\packages\nupengl.core.redist.0.1.0.1\build\native\nupengl.core.redist.targets')" />
+    <Import Project="..\packages\nupengl.core.0.1.0.1\build\native\nupengl.core.targets" Condition="Exists('..\packages\nupengl.core.0.1.0.1\build\native\nupengl.core.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\nupengl.core.redist.0.1.0.1\build\native\nupengl.core.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\nupengl.core.redist.0.1.0.1\build\native\nupengl.core.redist.targets'))" />
+    <Error Condition="!Exists('..\packages\nupengl.core.0.1.0.1\build\native\nupengl.core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\nupengl.core.0.1.0.1\build\native\nupengl.core.targets'))" />
+  </Target>
 </Project>
