@@ -1,0 +1,3 @@
+ModelName,ModelPath,Position,Rotation,Scale
+Bottle,../Obj/Bottle/Bottle.obj,(0 0 0),(0 -90 0),(0.3 0.3 0.3)
+Nanosuit,../Obj/Nanosuit/Nanosuit.obj,(1 0 0),(0 0 0),(0.05 0.05 0.05)
