@@ -21,7 +21,7 @@
   <ItemGroup>
     <ClInclude Include="EngineMain.h" />
     <ClInclude Include="ModelLoader.h" />
-    <ClInclude Include="shader.h" />
+    <ClInclude Include="ModelShader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\OpenglCourse\OpenglCourse\glad.c" />
@@ -169,6 +169,12 @@
   <ItemGroup>
     <ClCompile Include="LightManager.cpp" />
     <ClCompile Include="LightUnit.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BlinnPhongShader_v.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="BlinnPhongShader_f.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

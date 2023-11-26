@@ -1,0 +1,35 @@
+﻿#version 330 core
+in vec3 FragNormal;
+in vec3 FragPos;
+in vec2 TexCoords;
+
+out vec4 FragColor;
+
+uniform vec3 LightPos;
+uniform vec3 CameraPos;
+uniform sampler2D texture_diffuse1;
+
+void main()
+{
+	vec3 std_norm = normalize(FragNormal);
+	
+
+	// 环境光照
+	vec3 color = vec3(1.0f,1.0f,1.0f);
+	float ambientStrength = 0.005f;	
+	vec3 ambient = ambientStrength  * color;	
+
+	// 漫反射光照
+	vec3 SendLight = normalize(LightPos - FragPos);
+	float diff = 0.6 * max(dot(FragNormal, SendLight), 0.0f);
+	vec4 textureColor = texture(texture_diffuse1, TexCoords);
+	vec4 diffuse = diff * textureColor;
+
+	// 镜面反射光照
+	vec3 ks = vec3(0.7937f, 0.7937f, 0.7937f);
+	vec3 ReflectLight = reflect(-SendLight, FragNormal);
+	vec3 CameraDir = normalize(FragPos - CameraPos);
+	vec3 specular = ks * pow(max(dot(CameraDir, ReflectLight), 0.0), 150);	
+	
+	FragColor += (vec4(ambient + specular, 1.0f) + diffuse);
+}

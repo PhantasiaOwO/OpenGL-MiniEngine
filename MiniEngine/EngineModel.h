@@ -1,4 +1,4 @@
-#ifndef ENGINEMODEL_H
+ï»¿#ifndef ENGINEMODEL_H
 #define ENGINEMODEL_H
 
 #define STB_IMAGE_IMPLEMENTATION
@@ -9,28 +9,28 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
-#include "EngineMesh.h"
-#include "shader.h"
 #include <string>
 #include <iostream>
 #include <vector>
+#include "EngineMesh.h"
+#include "ModelShader.h"
 using namespace std;
 
 class EngineModel
 {
 private:
 	string name;
-	//ÒÑ¼ÓÔØÎÆÀí
+	//å·²åŠ è½½çº¹ç†
 	vector<Texture> textures_loaded;
-	//¶ÁÈ¡Íø¸ñ
+	//è¯»å–ç½‘æ ¼
 	vector<EngineMesh> meshes;
-	//Ä£ĞÍµØÖ·
+	//æ¨¡å‹åœ°å€
 	string directory;
-	//Ä£ĞÍÎ»ÖÃ
+	//æ¨¡å‹ä½ç½®
 	glm::vec3 pos;
-	//ÈÆÄÄ¸öÖáĞı×ªÒÔ¼°Ğı×ª¶ÈÊı
+	//ç»•å“ªä¸ªè½´æ—‹è½¬ä»¥åŠæ—‹è½¬åº¦æ•°
 	glm::vec3 rotation;
-	//Ä£ĞÍ´óĞ¡
+	//æ¨¡å‹å¤§å°
 	glm::vec3 scale;
 
 	void loadModel(const string& path);

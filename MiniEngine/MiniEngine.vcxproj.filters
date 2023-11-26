@@ -50,7 +50,7 @@
     <ClInclude Include="EngineModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="shader.h">
+    <ClInclude Include="ModelShader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ModelLoader.h">
@@ -69,5 +69,11 @@
     <ClCompile Include="EngineMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BlinnPhongShader_v.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="BlinnPhongShader_f.txt" />
   </ItemGroup>
 </Project>

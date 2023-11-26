@@ -5,8 +5,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <string>
 #include <iostream>
-#include "Shader.h"
 #include <vector>
+#include"ModelShader.h"
 using namespace std;
 
 //顶点信息
