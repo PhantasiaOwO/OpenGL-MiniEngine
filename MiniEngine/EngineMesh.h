@@ -1,6 +1,6 @@
 ﻿#ifndef ENGINEMESH
 #define ENGINEMESH
-#include <GL/glut.h> 
+#include <glad/glad.h> 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <string>
