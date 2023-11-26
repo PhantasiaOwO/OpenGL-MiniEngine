@@ -19,15 +19,18 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Mesh.h" />
     <ClInclude Include="EngineMain.h" />
     <ClInclude Include="ModelLoader.h" />
     <ClInclude Include="ModelShader.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Matrix3x3.h" />
     <ClInclude Include="Quaternion.h" />
+    <ClInclude Include="ObjectLoader.h" />
     <ClInclude Include="Vector3.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="EngineMain.cpp" />
     <ClCompile Include="EngineMesh.cpp" />
     <ClCompile Include="EngineModel.cpp" />
@@ -35,6 +38,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="ObjectLoader.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

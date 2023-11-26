@@ -11,6 +11,7 @@
 // #include "ModelShader.h"
 
 #include "LightManager.h"
+#include "Mesh.h"
 #include "Transform.h"
 using namespace std;
 
@@ -69,6 +70,8 @@ Vector3 mouseLast;
 
 #pragma endregion
 
+Mesh mesh;
+
 void BeginEngine(int* argc, char** argv) {
 	// 初始化glut
 	glutInit(argc, argv);
@@ -88,9 +91,15 @@ void BeginEngine(int* argc, char** argv) {
 void StartEngine() {
 	// Lighting Enable
 	LightManager& lightMgr = *LightManager::GetInstance();
-	lightMgr[0].SetAmbientColor({ 0.2f, 0.2f, 0.2f, 1.0f });
-	lightMgr[0].SetDiffuseColor({ 0.7f, 0.7f, 0.7f, 1.0f });
-	lightMgr[0].SetSpecularColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+	lightMgr[0].SetAmbientColor({0.2f, 0.2f, 0.2f, 1.0f});
+	lightMgr[0].SetDiffuseColor({0.7f, 0.7f, 0.7f, 1.0f});
+	lightMgr[0].SetSpecularColor({1.0f, 1.0f, 1.0f, 1.0f});
+
+	// Mesh Load
+	mesh.AssignMeshDataFromLoader(ObjectLoader(std::string("models/Bunny.obj")));
+
+	// Camera
+	cameraTransform.position = {0, 0, 5};
 
 	glutMainLoop();
 }
@@ -137,6 +146,7 @@ void Internal_TickEngineAction() {
 		glVertex3f(0, 0, 0.5);
 		glEnd();
 	}
+	mesh.Render();
 
 	glPopMatrix();
 
