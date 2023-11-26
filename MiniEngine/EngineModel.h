@@ -9,11 +9,11 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
-#include "EngineMesh.h"
-#include "shader.h"
 #include <string>
 #include <iostream>
 #include <vector>
+#include "EngineMesh.h"
+#include "ModelShader.h"
 using namespace std;
 
 class EngineModel

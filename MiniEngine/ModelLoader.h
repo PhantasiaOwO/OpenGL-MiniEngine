@@ -1,9 +1,11 @@
-#ifndef MODELLOADER
+ï»¿#ifndef MODELLOADER
 #define MODELLOADER
 #include<map>
 #include<algorithm>
 #include<unordered_map>
 #include<string>
+#include<fstream>
+#include<sstream>
 #include "EngineModel.h"
 using namespace std;
 class ModelLoader{
@@ -14,7 +16,6 @@ private:
 	vector<glm::vec3> pos;
 	vector<glm::vec3> rotation;
 	vector<glm::vec3> scale;
-
 
 	inline void stringSplit(vector<glm::vec3>& vec3,string str)
 	{
@@ -40,16 +41,16 @@ private:
 	}
 
 public:
-	ModelLoader()
+	explicit ModelLoader()
 	{
 		LoadModelFormFile();
 	}
 	/// <summary>
-	/// ¼ÓÔØÄ£ĞÍÂ·¾¶ÅäÖÃÎÄ¼ş
+	/// åŠ è½½æ¨¡å‹è·¯å¾„é…ç½®æ–‡ä»¶
 	/// </summary>
-	void LoadModelFormFile()
+	inline void LoadModelFormFile()
 	{
-		std::ifstream file;
+		ifstream file;
 		stringstream ss;
 		file.open("../Setting.csv", ios::in);
 		if (!file.is_open())
@@ -92,7 +93,7 @@ public:
 		}
 	}
 
-	void BuiltScene(Shader shader)
+	inline void BuiltScene(Shader shader)
 	{
 		for (auto& model : models)
 		{
