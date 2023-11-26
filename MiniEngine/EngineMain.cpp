@@ -3,7 +3,12 @@
 #include <ctime>
 #include <map>
 #include <sstream>
+
 #include <GL/glut.h>
+
+//内部include的glad.h跟glut.h冲突了
+#include "ModelLoader.h"
+#include "ModelShader.h"
 
 #include "LightManager.h"
 #include "Transform.h"
@@ -52,6 +57,18 @@ Vector3 mouseLast;
 
 #pragma endregion
 
+#pragma region 模型加载器
+
+ModelLoader modelLoader;
+
+#pragma endregion
+
+#pragma region 着色器
+
+Shader modelShader("BlinnPhongShader_v.txt", "BlinnPhongShader_f.txt");
+
+#pragma endregion
+
 void BeginEngine(int* argc, char** argv) {
 	// 初始化glut
 	glutInit(argc, argv);
@@ -71,8 +88,6 @@ void BeginEngine(int* argc, char** argv) {
 void StartEngine() {
 	// Lighting Enable
 	LightManager::GetInstance();
-
-
 	glutMainLoop();
 }
 
@@ -120,6 +135,9 @@ void Internal_TickEngineAction() {
 	}
 
 	glPopMatrix();
+	
+	modelLoader.BuiltScene(modelShader);
+
 	glutSwapBuffers();
 }
 

@@ -30,7 +30,13 @@
     <ClCompile Include="EngineModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\OpenglCourse\OpenglCourse\glad.c">
+    <ClCompile Include="glad.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Quaternion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -50,10 +56,22 @@
     <ClInclude Include="EngineModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ModelShader.h">
+    <ClInclude Include="ModelLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ModelLoader.h">
+    <ClInclude Include="Transform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix3x3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Quaternion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelShader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -71,9 +89,14 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="BlinnPhongShader_v.txt" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="BlinnPhongShader_f.txt" />
+    <Text Include="BlinnPhongShader_v.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="BlinnPhongShader_f.txt">
+      <Filter>Source Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>
