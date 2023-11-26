@@ -5,6 +5,7 @@
 #include <sstream>
 #include <GL/glut.h>
 
+#include "LightManager.h"
 #include "Transform.h"
 using namespace std;
 
@@ -63,10 +64,15 @@ void BeginEngine(int* argc, char** argv) {
 	glutKeyboardFunc(&Internal_KeyboardFunc);
 	glutSpecialFunc(&Internal_SpecialFunc);
 	glutMotionFunc(&Internal_MouseMotion);
+	glutPassiveMotionFunc(&Internal_MousePassiveMotion);
 	glEnable(GL_DEPTH_TEST);
 }
 
 void StartEngine() {
+	// Lighting Enable
+	LightManager::GetInstance();
+
+
 	glutMainLoop();
 }
 
@@ -98,8 +104,20 @@ void Internal_TickEngineAction() {
 	glMultMatrixf(Matrix4x4ForGL(cameraRot.RotateMatrix().Transpose())); // 正交矩阵转置和逆一致
 	glTranslatef(-cameraPosition.X(), -cameraPosition.Y(), -cameraPosition.Z());
 
-	// TODO render
-
+	// worldAxes
+	{
+		glBegin(GL_LINES);
+		glColor3f(1, 0, 0);
+		glVertex3f(0, 0, 0);
+		glVertex3f(0.5, 0, 0);
+		glColor3f(0, 1, 0);
+		glVertex3f(0, 0, 0);
+		glVertex3f(0, 0.5, 0);
+		glColor3f(0, 0, 1);
+		glVertex3f(0, 0, 0);
+		glVertex3f(0, 0, 0.5);
+		glEnd();
+	}
 
 	glPopMatrix();
 	glutSwapBuffers();
@@ -192,6 +210,10 @@ void Internal_KeyboardFunc(unsigned char key, int x, int y) {
 
 void Internal_SpecialFunc(int specialKey, int x, int y) { }
 
+
+void Internal_MousePassiveMotion(int x, int y) {
+	mouseLast = Vector3(x, y, 0);
+}
 
 void Internal_MouseMotion(int x, int y) {
 	Vector3 delta(Vector3(x, y, 0) - mouseLast);
