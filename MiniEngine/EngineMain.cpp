@@ -39,7 +39,7 @@ static int windowHeight = 600;
 static float fovy(60);
 static float nearPlane(0.01);
 static float farPlane(100);
-static Transform transform;
+static Transform cameraTransform;
 static bool isChangeRotate;
 static Vector3 rotateAngle;
 static Vector3 initPos;
@@ -114,8 +114,8 @@ void Internal_TickEngineAction() {
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	Vector3 cameraPosition = transform.position;
-	Quaternion cameraRot = transform.rotation;
+	Vector3 cameraPosition = cameraTransform.position;
+	Quaternion cameraRot = cameraTransform.rotation;
 	glMultMatrixf(Matrix4x4ForGL(cameraRot.RotateMatrix().Transpose())); // 正交矩阵转置和逆一致
 	glTranslatef(-cameraPosition.X(), -cameraPosition.Y(), -cameraPosition.Z());
 
@@ -164,27 +164,27 @@ void Internal_KeyboardFunc(unsigned char key, int x, int y) {
 			break;
 
 		case 'w':// 前进
-			transform.position += transform.rotation.ZAxis() * -linearStep;
+			cameraTransform.position += cameraTransform.rotation.ZAxis() * -linearStep;
 			break;
 
 		case 's':// 后退
-			transform.position += transform.rotation.ZAxis() * linearStep;
+			cameraTransform.position += cameraTransform.rotation.ZAxis() * linearStep;
 			break;
 
 		case 'a':// 左移
-			transform.position += transform.rotation.XAxis() * -linearStep;
+			cameraTransform.position += cameraTransform.rotation.XAxis() * -linearStep;
 			break;
 
 		case 'd':// 右移
-			transform.position += transform.rotation.XAxis() * linearStep;
+			cameraTransform.position += cameraTransform.rotation.XAxis() * linearStep;
 			break;
 
 		case 'r':// 上移
-			transform.position += transform.rotation.YAxis() * linearStep;
+			cameraTransform.position += cameraTransform.rotation.YAxis() * linearStep;
 			break;
 
 		case 'f':// 下移
-			transform.position += transform.rotation.YAxis() * -linearStep;
+			cameraTransform.position += cameraTransform.rotation.YAxis() * -linearStep;
 			break;
 
 		case 'q':// 左旋
@@ -208,8 +208,8 @@ void Internal_KeyboardFunc(unsigned char key, int x, int y) {
 			break;
 
 		case 'm':// 复位
-			transform.position = initPos;
-			transform.rotation = initRot;
+			cameraTransform.position = initPos;
+			cameraTransform.rotation = initRot;
 			rotateAngle = {0, 0, 0};
 			break;
 
@@ -222,7 +222,7 @@ void Internal_KeyboardFunc(unsigned char key, int x, int y) {
 
 		Quaternion newRotate;
 		newRotate.SetFromEulerAngleZYX(rotateAngle);
-		transform.rotation = newRotate;
+		cameraTransform.rotation = newRotate;
 	}
 }
 
@@ -251,6 +251,6 @@ void Internal_MouseMotion(int x, int y) {
 		}
 		Quaternion newRotate;
 		newRotate.SetFromEulerAngleZYX(rotateAngle);
-		transform.rotation = newRotate;
+		cameraTransform.rotation = newRotate;
 	}
 }
