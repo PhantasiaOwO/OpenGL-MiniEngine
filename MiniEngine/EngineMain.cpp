@@ -5,11 +5,8 @@
 #include <sstream>
 
 #include <GL/glut.h>
-//
-// //内部include的glad.h跟glut.h冲突了
-// #include "ModelLoader.h"
-// #include "ModelShader.h"
 
+#include "ModelLoader.h"
 #include "LightManager.h"
 #include "Mesh.h"
 #include "Transform.h"
@@ -60,13 +57,11 @@ Vector3 mouseLast;
 
 #pragma region 模型加载器
 
-// ModelLoader modelLoader;
+ModelLoader modelLoader;
 
 #pragma endregion
 
 #pragma region 着色器
-
-// Shader modelShader("BlinnPhongShader_v.txt", "BlinnPhongShader_f.txt");
 
 #pragma endregion
 
@@ -96,8 +91,7 @@ void StartEngine() {
 	lightMgr[0].SetSpecularColor({1.0f, 1.0f, 1.0f, 1.0f});
 
 	// Mesh Load
-	mesh.AssignMeshDataFromLoader(ObjectLoader(std::string("models/Bunny.obj")));
-
+	modelLoader.LoadModelFormFile();
 	// Camera
 	cameraTransform.position = {0, 0, 5};
 
@@ -119,7 +113,7 @@ void Internal_TickEngineAction() {
 
 	// render
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+	
 	// matrix set
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -146,11 +140,10 @@ void Internal_TickEngineAction() {
 		glVertex3f(0, 0, 0.5);
 		glEnd();
 	}
-	mesh.Render();
-
+	//mesh.Render();
 	glPopMatrix();
 
-	// modelLoader.BuiltScene(modelShader);
+	modelLoader.BuiltScene();
 
 	glutSwapBuffers();
 }

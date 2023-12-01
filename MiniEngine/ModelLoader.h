@@ -43,7 +43,6 @@ private:
 public:
 	explicit ModelLoader()
 	{
-		LoadModelFormFile();
 	}
 	/// <summary>
 	/// 加载模型路径配置文件
@@ -93,11 +92,11 @@ public:
 		}
 	}
 
-	inline void BuiltScene(Shader shader)
+	inline void BuiltScene()
 	{
 		for (auto& model : models)
 		{
-			model.second.BuiltModel(shader);
+			model.second.BuiltModel();
 		}
 	}
 };

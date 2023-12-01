@@ -22,7 +22,6 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="EngineMain.h" />
     <ClInclude Include="ModelLoader.h" />
-    <ClInclude Include="ModelShader.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Matrix3x3.h" />
     <ClInclude Include="Quaternion.h" />
@@ -190,10 +189,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="BlinnPhongShader_f.txt" />
-    <Text Include="BlinnPhongShader_v.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,10 +1,10 @@
-#include "EngineModel.h"
+ï»¿#include "EngineModel.h"
 #include <stb_image.h>
 
 void EngineModel::loadModel(const string& path)
 {
     Assimp::Importer importer;
-    //¶ÁÈ¡Â·¾¶Ä£ĞÍĞÅÏ¢,Assimp¿â¸¨Öú½¨Á¢Êı¾İ½á¹¹
+    //è¯»å–è·¯å¾„æ¨¡å‹ä¿¡æ¯,Assimpåº“è¾…åŠ©å»ºç«‹æ•°æ®ç»“æ„
     cout << "Begin Load Model:"<< name << endl;
     const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
     cout << "Finished " << endl;
@@ -14,7 +14,7 @@ void EngineModel::loadModel(const string& path)
         return;
     }
 
-    directory = path.substr(0, path.find_last_of('/'));
+	directory = path.substr(0, path.find_last_of('/'));
 
     traverseNode(scene->mRootNode, scene);
 }
@@ -29,58 +29,49 @@ void EngineModel::traverseNode(aiNode* node, const aiScene* scene)
 
     for (uint32_t i = 0; i < node->mNumChildren; ++i)
     {
-        //µİ¹é¶ÁÈ¡×Ó½Úµã
+        //é€’å½’è¯»å–å­èŠ‚ç‚¹
         traverseNode(node->mChildren[i], scene);
     }
 }
 
 void EngineModel::storeMesh(aiMesh* mesh, const aiScene* scene)
 {
-    //¶¥µãĞÅÏ¢
+    //é¡¶ç‚¹ä¿¡æ¯
     vector<Vertex> vertices;
-    //Á´½ÓË÷Òı
+    //é“¾æ¥ç´¢å¼•
     vector<uint32_t> indices;
-    //ÎÆÀíĞÅÏ¢
+    //çº¹ç†ä¿¡æ¯
     vector<Texture> textures;
 
     for (uint32_t i = 0; i < mesh->mNumVertices; ++i)
     {
-        
         Vertex vertex;
-        glm::vec3 vector;
-        //Î»ÖÃ
-        vector.x = mesh->mVertices[i].x;
-        vector.y = mesh->mVertices[i].y;
-        vector.z = mesh->mVertices[i].z;
+        Vector3 vector;
+        //ä½ç½®
+        vector.X() = mesh->mVertices[i].x;
+        vector.Y() = mesh->mVertices[i].y;
+        vector.Z() = mesh->mVertices[i].z;
         vertex.Position = vector;
 
-
-        //·¨Ïß
-        vector.x = mesh->mNormals[i].x;
-        vector.y = mesh->mNormals[i].y;
-        vector.z = mesh->mNormals[i].z;
+        //æ³•çº¿
+        vector.X() = mesh->mNormals[i].x;
+        vector.Y() = mesh->mNormals[i].y;
+        vector.Z() = mesh->mNormals[i].z;
         vertex.Normal = vector;
 
-        //ÎÆÀí
-        if (mesh->mTextureCoords[0])
-        {
-            glm::vec2 vec;
-            vec.x = mesh->mTextureCoords[0][i].x;
-            vec.y = mesh->mTextureCoords[0][i].y;
-            vertex.TexCoords = vec;
-        }
-        else
-            vertex.TexCoords = glm::vec2(0.0f, 0.0f);
-
-        //ÇĞÏß
-        vector.x = mesh->mTangents[i].x;
-        vector.y = mesh->mTangents[i].y;
-        vector.z = mesh->mTangents[i].z;
-        vertex.Tangent = vector;
+		//çº¹ç†ï¼Œè¯»ä¸åˆ°çº¹ç†çš„åæ ‡ä¸çŸ¥é“ä¸ºä»€ä¹ˆ
+		if (mesh->mTextureCoords[0])
+		{
+			glm::vec2 vec;
+			vec.x = mesh->mTextureCoords[0][i].x;
+			vec.y = mesh->mTextureCoords[0][i].y;
+			vertex.TexCoords = vec;
+		}
+		else
+			vertex.TexCoords = glm::vec2(0.0f, 0.0f);
         vertices.emplace_back(vertex);
     }
     
-    //¶ÁÈ¡ÃæË÷Òı
     for (uint32_t i = 0; i < mesh->mNumFaces; ++i)
     {
         aiFace face = mesh->mFaces[i];
@@ -89,101 +80,108 @@ void EngineModel::storeMesh(aiMesh* mesh, const aiScene* scene)
             indices.emplace_back(face.mIndices[j]);
         }
     }
-    
-    //¶ÁÈ¡²ÄÖÊĞÅÏ¢
-    aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-    
-    ///¼ÓÔØÎÆÀí
-    //Âş·´ÉäÎÆÀí
-    vector<Texture> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, TextureType::DiffuseMap);
-    textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
-    //¸ß¹â·´ÉäÎÆÀí
-    vector<Texture> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, TextureType::SpecularMap);
-    textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
-    //Éî¶ÈÎÆÀí
-    std::vector<Texture> normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, TextureType::HeightMap);
-    textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
-    //·¨ÏßÎÆÀí
-    std::vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, TextureType::NormalMap);
-    textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 
-    meshes.push_back(EngineMesh(vertices, indices, textures));
+	//è¯»å–æè´¨ä¿¡æ¯
+	aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+
+	///åŠ è½½çº¹ç†
+	//æ¼«åå°„çº¹ç†
+	vector<Texture> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, TextureType::DiffuseMap);
+	textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
+	//é«˜å…‰åå°„çº¹ç†
+	vector<Texture> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, TextureType::SpecularMap);
+	textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+	//æ·±åº¦çº¹ç†
+	std::vector<Texture> normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, TextureType::HeightMap);
+	textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
+	//æ³•çº¿çº¹ç†
+	std::vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, TextureType::NormalMap);
+	textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
+
+	meshes.emplace_back(EngineMesh(vertices, indices,textures));
 }
 
 
 vector<Texture> EngineModel::loadMaterialTextures(aiMaterial* mat, aiTextureType type, TextureType textureType)
 {
-    vector<Texture> textures;
-    //±éÀúµ±Ç°ÖÖÀàµÄÌùÍ¼Êı
-    for (uint32_t i = 0; i < mat->GetTextureCount(type); ++i)
-    {
-        aiString str;
-        //»ñµÃÌùÍ¼Â·¾¶,Í¨¹ımtlÎÄ¼şÈ·ÈÏµÄÎÆÀíÎ»ÖÃ
-        mat->GetTexture(type, i, &str);
-        //·ÀÖ¹ÌùÍ¼ÖØ¸´¶ÁÈ¡
-        bool skip = false;
-        for (uint32_t j = 0; j < textures_loaded.size(); ++j)
-        {
-            if (std::strcmp(textures_loaded[j].path.data(), str.C_Str()) == 0)
-            {
-                skip = true;
-                break;
-            }
-        }
+	vector<Texture> textures;
+	//éå†å½“å‰ç§ç±»çš„è´´å›¾æ•°
+	for (uint32_t i = 0; i < mat->GetTextureCount(type); ++i)
+	{
+		aiString str;
+		//è·å¾—è´´å›¾è·¯å¾„,é€šè¿‡mtlæ–‡ä»¶ç¡®è®¤çš„çº¹ç†ä½ç½®
+		mat->GetTexture(type, i, &str);
+		//é˜²æ­¢è´´å›¾é‡å¤è¯»å–
+		bool skip = false;
+		for (uint32_t j = 0; j < textures_loaded.size(); ++j)
+		{
+			if (std::strcmp(textures_loaded[j].path.data(), str.C_Str()) == 0)
+			{
+				skip = true;
+				break;
+			}
+		}
 
-        if (!skip)
-        {
-            Texture texture;
-            texture.id = loadTexture(str.C_Str());
-            texture.type = textureType;
-            texture.path = str.C_Str();
-            textures.emplace_back(texture);
-            textures_loaded.emplace_back(texture);
-        }
-    }
-    return textures;
+		if (!skip)
+		{
+			Texture texture;
+			texture.id = loadTexture(str.C_Str());
+			texture.type = textureType;
+			texture.path = str.C_Str();
+			textures.emplace_back(texture);
+			textures_loaded.emplace_back(texture);
+		}
+	}
+	return textures;
 }
 
 uint32_t EngineModel::loadTexture(const char* path)
 {
-    string filename = string(path);
-    filename = this->directory + '/' + filename;
 
-    GLuint textureID;
-    glGenTextures(1, &textureID);
+	string filename = string(path);
+	filename = this->directory + '/' + filename;
 
-    int width, height, nrComponents;
+	GLuint textureID;
+	///åˆ›å»ºçº¹ç†
+	glGenTextures(1, &textureID);
 
-    ///¼ÓÔØÎÆÀíÊı¾İ
-    unsigned char* data = stbi_load(filename.c_str(), &width, &height, &nrComponents, 0);
-    if (data)
-    {
-        //È·¶¨ÑÕÉ«¿Õ¼ä
-        GLenum format = 0;
-        if (nrComponents == 1)
-            format = GL_RED;
-        else if (nrComponents == 3)
-            format = GL_RGB;
-        else if (nrComponents == 4)
-            format = GL_RGBA;
-        //ÎÆÀí°ó¶¨
-        glBindTexture(GL_TEXTURE_2D, textureID);
-        glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-        //ÎÆÀí»·ÈÆ·½Ê½
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-        //ÉèÖÃMIPMAP²ÉÑùËã·¨
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	int width, height, nrComponents;
 
-        stbi_image_free(data);
-    }
-    else
-    {
-        std::cout << "Texture failed to load at path: " << path << std::endl;
-        stbi_image_free(data);
-    }
+	///åŠ è½½çº¹ç†æ•°æ®
+	unsigned char* data = stbi_load(filename.c_str(), &width, &height, &nrComponents, 0);
+	if (data)
+	{
+		//ç¡®å®šé¢œè‰²ç©ºé—´
+		GLenum format = 0;
+		if (nrComponents == 1)
+			format = GL_RED;
+		else if (nrComponents == 3)
+			format = GL_RGB;
+		else if (nrComponents == 4)
+			format = GL_RGBA;
 
-    return textureID;
+		//çº¹ç†ç»‘å®š
+		glBindTexture(GL_TEXTURE_2D, textureID);
+		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+
+		//åˆ›å»ºMipmaps
+		gluBuild2DMipmaps(GL_TEXTURE_2D, 3, width, height, format ,GL_UNSIGNED_BYTE, data);
+		//çº¹ç†ç¯ç»•æ–¹å¼
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		//æ··åˆæ–¹å¼
+		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+		stbi_image_free(data);
+	}
+	else
+	{
+		std::cout << "Texture failed to load at path: " << path << std::endl;
+		stbi_image_free(data);
+	}
+
+	return textureID;
 }
+

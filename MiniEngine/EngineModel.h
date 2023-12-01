@@ -13,25 +13,23 @@
 #include <iostream>
 #include <vector>
 #include "EngineMesh.h"
-#include "ModelShader.h"
 using namespace std;
 
 class EngineModel
 {
 private:
 	string name;
-	//已加载纹理
-	vector<Texture> textures_loaded;
 	//读取网格
 	vector<EngineMesh> meshes;
-	//模型地址
-	string directory;
+	vector<Texture> textures_loaded;
 	//模型位置
 	glm::vec3 pos;
 	//绕哪个轴旋转以及旋转度数
 	glm::vec3 rotation;
 	//模型大小
 	glm::vec3 scale;
+
+	string directory;
 
 	void loadModel(const string& path);
 
@@ -51,28 +49,25 @@ public:
 		loadModel(path);
 	}
 
-	inline void BuiltModel(Shader shader)
+	inline void BuiltModel()
 	{
-		glm::mat4 my_transform = glm::mat4(1.0f);
-
-		my_transform = glm::translate(my_transform, ModelPos());
-		my_transform = glm::scale(my_transform, ModelScale());
-		my_transform = glm::rotate(my_transform, glm::radians(ModelRotationX()), glm::vec3(1.0f, 0.0f, 0.0f));
-		my_transform = glm::rotate(my_transform, glm::radians(ModelRotationY()), glm::vec3(0.0f, 1.0f, 0.0f));
-		my_transform = glm::rotate(my_transform, glm::radians(ModelRotationZ()), glm::vec3(0.0f, 0.0f, 1.0f));
-
-		shader.setMat4("transform", my_transform);
+		glPushMatrix();
+		glScalef(scale.x,scale.y,scale.z);
+		glRotatef(rotation.x,1, 0, 0);
+		glRotatef(rotation.y,0, 1, 0);
+		glRotatef(rotation.z,0, 0, 1);
+		glTranslatef(pos.x,pos.y,pos.z);
 		for (auto& mesh : meshes)
 		{
-			mesh.DrawMesh(shader);
+			mesh.DrawMesh();
 		}
+		glPopMatrix();
+		glFlush();
 	}
 	
 	inline void DestroyModel()
 	{
-		textures_loaded.clear();
 		meshes.clear();
-		directory.clear();
 	}
 
 	inline void SwitchModel(const string& path, glm::vec3 pos,glm::vec3 rotation ,glm::vec3 scale)
@@ -94,17 +89,17 @@ public:
 		return scale;
 	}
 	
-	inline const GLfloat ModelRotationX() 
+	inline const float ModelRotationX() 
 	{
 		return rotation.x;
 	}
 
-	inline const GLfloat ModelRotationY() 
+	inline const float ModelRotationY() 
 	{
 		return rotation.y;
 	}
 
-	inline const GLfloat ModelRotationZ() 
+	inline const float ModelRotationZ() 
 	{
 		return rotation.z;
 	}

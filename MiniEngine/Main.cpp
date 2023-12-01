@@ -1,4 +1,4 @@
-#include "EngineMain.h"
+﻿#include "EngineMain.h"
 
 int main(int argc, char* argv[]) {
 	BeginEngine(&argc, argv);
@@ -6,3 +6,4 @@ int main(int argc, char* argv[]) {
 	EndEngine();
 	return 0;
 }
+
